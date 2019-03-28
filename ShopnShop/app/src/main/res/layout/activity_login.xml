@@ -18,7 +18,7 @@
         app:layout_constraintVertical_bias="0.099" />
 
     <Button
-        android:id="@+id/btn_connexion"
+        android:id="@+id/btn_connection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/btn_inscrire"
+        android:id="@+id/btn_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -41,6 +41,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_connexion" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_connection" />
 
 </android.support.constraint.ConstraintLayout>
