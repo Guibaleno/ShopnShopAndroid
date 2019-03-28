@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.main_activity);
 
         loginBtn = (Button) findViewById(R.id.btn_connection);
         inscriptionBtn = (Button) findViewById(R.id.btn_signup);
@@ -50,6 +50,5 @@ public class MainActivity extends AppCompatActivity {
     public void goToSignup(){
         Intent intent = new Intent(this, InscriptionActivity.class);
         startActivity(intent);
-        setContentView(R.layout.main_activity);
     }
 }
