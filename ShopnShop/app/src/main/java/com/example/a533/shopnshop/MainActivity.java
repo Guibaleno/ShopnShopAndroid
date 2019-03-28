@@ -50,5 +50,6 @@ public class MainActivity extends AppCompatActivity {
     public void goToSignup(){
         Intent intent = new Intent(this, InscriptionActivity.class);
         startActivity(intent);
+        setContentView(R.layout.main_activity);
     }
 }
