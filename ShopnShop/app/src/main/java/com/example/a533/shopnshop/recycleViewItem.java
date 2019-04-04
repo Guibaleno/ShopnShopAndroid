@@ -14,11 +14,8 @@ import java.util.List;
 public class recycleViewItem extends RecyclerView.Adapter <recycleViewItem.MyViewHolder> {
     private List<String> mDataset;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         public TextView textView;
 
         public MyViewHolder(View v) {
@@ -27,17 +24,13 @@ public class recycleViewItem extends RecyclerView.Adapter <recycleViewItem.MyVie
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
     public recycleViewItem(List<String> myDataset) {
         mDataset = myDataset;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public recycleViewItem.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                            int viewType) {
-        // create a new view
-        // parent.removeAllViews();
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_recycle_view_item, parent, false);
 
@@ -46,15 +39,11 @@ public class recycleViewItem extends RecyclerView.Adapter <recycleViewItem.MyVie
 
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
         holder.textView.setText(mDataset.get(position));
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset.size();

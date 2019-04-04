@@ -61,22 +61,7 @@ ImageView imageView;
             public void onClick(View v) {
                 Intent takePicture  =new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                startActivityForResult(takePicture ,0);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(photoActivity.this);
-//                builder.setMessage("Voulez-vous prendre une nouvelle photo?");
-//                builder.setPositiveButton("OUI", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        Intent takePicture  =new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                        startActivityForResult(takePicture ,0);
-//                    }
-//                });
-//
-//                builder.setNegativeButton("NON", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//
-//                    }
-//                });
-//                AlertDialog alert = builder.create();
-//                alert.show();
+
             }
         });
         btngallery.setOnClickListener(new View.OnClickListener() {

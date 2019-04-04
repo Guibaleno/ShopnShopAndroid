@@ -66,7 +66,6 @@ public class InscriptionActivity extends AppCompatActivity {
     public void viewAllData(){
         Cursor res = dbShop.getAllData();
         if(res.getCount() == 0){
-            //showMessage("Error", "Nothing Found");
             return;
         }
 
@@ -75,15 +74,6 @@ public class InscriptionActivity extends AppCompatActivity {
             buffer.append("Username :" + res.getString(1)+"\n");
             buffer.append("Password :" + res.getString(2)+"\n\n");
         }
-        //showMessage("Data", buffer.toString());
     }
 
-    public void showMessage(String title, String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.show();
-
-    }
 }
