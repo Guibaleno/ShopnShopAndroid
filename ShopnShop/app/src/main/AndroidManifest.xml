@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.a533.shopnshop">
+
     <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,10 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InscriptionActivity"></activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".photoActivity"></activity>
-        <activity android:name=".Itemlist"></activity>
+        <activity android:name=".InscriptionActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".photoActivity" />
+        <activity android:name=".MakeAnorder" />
+        <activity android:name=".MainMenu" />
+        <activity android:name=".SeeMyOrders"></activity>
     </application>
 
 </manifest>
