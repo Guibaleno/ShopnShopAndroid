@@ -38,13 +38,6 @@ public class MainActivity extends AppCompatActivity {
                 goToSignup();
             }
         });
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotest();
-            }
-        });
-
     }
 
     public void goTologin(){
@@ -54,10 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToSignup(){
         Intent intent = new Intent(this, InscriptionActivity.class);
-        startActivity(intent);
-    }
-    public void gotest(){
-        Intent intent = new Intent(this, photoActivity.class);
         startActivity(intent);
     }
 }

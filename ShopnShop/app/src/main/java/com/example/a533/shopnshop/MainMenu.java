@@ -19,6 +19,7 @@ public class MainMenu extends AppCompatActivity {
         btnOrder = findViewById(R.id.btnOrder);
         btnSeeMyOrders = findViewById(R.id.btnSeeMyOrders);
         btnChangeProfilePicture = findViewById(R.id.btnChangeProfilePicture);
+        setListeners();
     }
 
     private void setListeners()

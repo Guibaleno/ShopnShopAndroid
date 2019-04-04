@@ -39,6 +39,11 @@ public class LoginActivity extends AppCompatActivity {
                {
                     MoveToMainMenu();
                }
+               else
+               {
+                   txtPassword.getText().clear();
+                   Toast.makeText(getApplicationContext(), "Username ou mot de passe invalide", Toast.LENGTH_SHORT).show();
+               }
             }
         });
     }
