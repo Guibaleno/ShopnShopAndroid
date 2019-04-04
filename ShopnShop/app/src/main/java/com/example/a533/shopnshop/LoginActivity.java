@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                else
                {
                    txtPassword.getText().clear();
+                   txtPassword.requestFocus();
                    Toast.makeText(getApplicationContext(), "Username ou mot de passe invalide", Toast.LENGTH_SHORT).show();
                }
             }
@@ -53,30 +54,4 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
     }
-
-    //private void SigningUpUser()
-    //{
-    //    EditText userEmail = findViewById(R.id.editText_username_signup);
-    //    EditText password = findViewById(R.id.edittext_password_signup);
-    //    EditText passwordConfirmation = findViewById(R.id.editText_confirmpassword_signup);
-//
-    //    if (!password.getText().toString().equals(passwordConfirmation.getText().toString()))
-    //    {
-    //        Toast.makeText(getApplicationContext(), "MDP pas pareils", Toast.LENGTH_SHORT).show();
-    //        return;
-    //    }
-    //    auth.createUserWithEmailAndPassword(userEmail.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-    //        @Override
-    //        public void onComplete(@NonNull Task<AuthResult> task) {
-    //            if (task.isSuccessful())
-    //            {
-    //                sendUserToMainActivity();
-    //            }
-    //            else
-    //            {
-    //                Toast.makeText(getApplicationContext(), "Failed to sign up", Toast.LENGTH_SHORT).show();
-    //            }
-    //        }
-    //    });
-    //}
 }
