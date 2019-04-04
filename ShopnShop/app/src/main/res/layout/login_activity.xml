@@ -25,7 +25,7 @@
         android:id="@+id/editText_password_login"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="192dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
