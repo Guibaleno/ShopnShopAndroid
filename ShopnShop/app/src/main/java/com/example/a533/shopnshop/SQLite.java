@@ -2,6 +2,7 @@ package com.example.a533.shopnshop;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -76,5 +77,17 @@ public class SQLite extends SQLiteOpenHelper {
         contentValues.put(QUANTITYLEFT, quantityLeft);
         long result = db.insert(TBLOBJECTS, null, contentValues);
         return result != -1;
+    }
+
+    public Cursor getAllData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TBLUSERS,null);
+        return res;
+    }
+
+    public boolean verifyUsername(String Username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TBLUSERS + " WHERE Username = \"" + Username + "\"",null);
+        return res.getCount() > 0 ;
     }
 }
