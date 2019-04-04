@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
 
         loginBtn = (Button) findViewById(R.id.btn_connection);
         inscriptionBtn = (Button) findViewById(R.id.btn_signup);
-        test = (Button) findViewById(R.id.button_camera);
         setListener();
     }
 
