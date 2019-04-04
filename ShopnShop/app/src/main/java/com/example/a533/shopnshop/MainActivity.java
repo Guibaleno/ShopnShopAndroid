@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button loginBtn;
     Button inscriptionBtn;
-
+    Button test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         loginBtn = (Button) findViewById(R.id.btn_connection);
         inscriptionBtn = (Button) findViewById(R.id.btn_signup);
-
+        test = (Button) findViewById(R.id.button_camera);
         setListener();
     }
 
@@ -38,7 +38,12 @@ public class MainActivity extends AppCompatActivity {
                 goToSignup();
             }
         });
-
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotest();
+            }
+        });
 
     }
 
@@ -49,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToSignup(){
         Intent intent = new Intent(this, InscriptionActivity.class);
+        startActivity(intent);
+    }
+    public void gotest(){
+        Intent intent = new Intent(this, photoActivity.class);
         startActivity(intent);
     }
 }
