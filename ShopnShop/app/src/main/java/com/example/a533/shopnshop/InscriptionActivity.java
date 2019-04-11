@@ -1,5 +1,6 @@
 package com.example.a533.shopnshop;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -53,6 +54,9 @@ public class InscriptionActivity extends AppCompatActivity {
            if(!dbShop.verifyUsername(txtUserEmail.getText().toString())){
                dbShop.InsertUser(txtUserEmail.getText().toString(), txtPassword.getText().toString());
                Toast.makeText(getApplicationContext(), "Vous êtes inscrit!", Toast.LENGTH_SHORT).show();
+               Intent intent = new Intent(this, LoginActivity.class);
+               finish();
+               startActivity(intent);
            }
            else
            {

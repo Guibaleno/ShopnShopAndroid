@@ -7,6 +7,7 @@
     tools:context=".MakeAnorder">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerItemsToOrder"
         android:layout_width="277dp"
         android:layout_height="355dp"
         android:layout_marginBottom="8dp"

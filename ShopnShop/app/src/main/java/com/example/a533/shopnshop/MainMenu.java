@@ -1,5 +1,9 @@
 package com.example.a533.shopnshop;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +15,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toolbar;
 
 public class MainMenu extends AppCompatActivity {
@@ -61,6 +66,7 @@ public class MainMenu extends AppCompatActivity {
         btnSeeMyOrders = findViewById(R.id.btnSeeMyOrders);
         btnChangeProfilePicture = findViewById(R.id.btnChangeProfilePicture);
         setListeners();
+        StartAnimation();
         DialogMenu();
     }
 
@@ -130,5 +136,28 @@ public class MainMenu extends AppCompatActivity {
         alert11.show();
 
 
+    }
+
+    private void StartAnimation()
+    {
+        ImageView myView = (ImageView)findViewById(R.id.imageViewShopnShop);
+
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(myView, "alpha",  1f, .3f);
+        fadeOut.setDuration(500);
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(myView, "alpha", .3f, 1f);
+        fadeIn.setDuration(500);
+
+        final AnimatorSet mAnimationSet = new AnimatorSet();
+
+        mAnimationSet.play(fadeIn).after(fadeOut);
+
+        mAnimationSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mAnimationSet.start();
+            }
+        });
+        mAnimationSet.start();
     }
 }

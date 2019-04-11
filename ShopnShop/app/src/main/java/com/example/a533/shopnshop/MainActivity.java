@@ -1,10 +1,20 @@
 package com.example.a533.shopnshop;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         loginBtn = (Button) findViewById(R.id.btn_connection);
         inscriptionBtn = (Button) findViewById(R.id.btn_signup);
         setListener();
+
+
     }
 
 

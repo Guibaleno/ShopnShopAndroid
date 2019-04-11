@@ -40,6 +40,7 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TBLOBJECT_ORDER + "("+ IDORDER + " INTEGER NOT NULL," + IDOBJECT + " INTEGER NOT NULL, " +
                    "CONSTRAINT FK_IDorder FOREIGN KEY("+ IDORDER + ")" + "REFERENCES " + TBLORDERS + "(" + IDORDER + "), " +
                    "CONSTRAINT FK_IDOBJET FOREIGN KEY(" + IDOBJECT + ")" + "REFERENCES " + TBLOBJECTS + "(" + IDOBJECT + "))");
+        CreateItems();
     }
 
     @Override
@@ -69,7 +70,7 @@ public class SQLite extends SQLiteOpenHelper {
         long result = db.insert(TBLORDERS, null, contentValues);
         return result != -1;
     }
-    public boolean InsertObject(String objectName, String quantityLeft)
+    public boolean InsertObject(String objectName, int quantityLeft)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -97,4 +98,13 @@ public class SQLite extends SQLiteOpenHelper {
         Cursor user = db.rawQuery("SELECT * FROM tblUsers WHERE Username = \"" + username + "\" AND Password = \"" + password + "\"", null);
         return user.getCount() > 0;
     }
+
+    private void CreateItems()
+    {
+        InsertObject("Potatoes", 10);
+        InsertObject("Ketchup bottles", 18);
+        InsertObject("Ceasar salad", 12);
+        InsertObject("Garlic bread", 50);
+    }
+
 }
