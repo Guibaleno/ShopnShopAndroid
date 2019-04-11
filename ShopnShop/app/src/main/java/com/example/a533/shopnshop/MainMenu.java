@@ -1,5 +1,7 @@
 package com.example.a533.shopnshop;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -59,6 +61,7 @@ public class MainMenu extends AppCompatActivity {
         btnSeeMyOrders = findViewById(R.id.btnSeeMyOrders);
         btnChangeProfilePicture = findViewById(R.id.btnChangeProfilePicture);
         setListeners();
+        DialogMenu();
     }
 
     @Override
@@ -109,4 +112,23 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    private void DialogMenu(){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Vous avez X commande");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Okay",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
+
+    }
 }
