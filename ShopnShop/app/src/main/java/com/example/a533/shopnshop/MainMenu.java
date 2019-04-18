@@ -8,21 +8,24 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 public class MainMenu extends AppCompatActivity {
 
     Button btnOrder;
     Button btnSeeMyOrders;
     Button btnChangeProfilePicture;
+    Toolbar myToolbar;
     private DrawerLayout drawerLayout;
 
     @Override
@@ -30,37 +33,8 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        //ActionBar actionbar = getSupportActionBar();
-        //actionbar.setDisplayHomeAsUpEnabled(true);
-        //actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        //drawerLayout = findViewById(R.id.drawer_layout);
-//
-        //mDrawerLayout.addDrawerListener(
-        //        new DrawerLayout.DrawerListener() {
-        //            @Override
-        //            public void onDrawerSlide(View drawerView, float slideOffset) {
-        //                // Respond when the drawer's position changes
-        //            }
-//
-        //            @Override
-        //            public void onDrawerOpened(View drawerView) {
-        //                // Respond when the drawer is opened
-        //            }
-//
-        //            @Override
-        //            public void onDrawerClosed(View drawerView) {
-        //                // Respond when the drawer is closed
-        //            }
-//
-        //            @Override
-        //            public void onDrawerStateChanged(int newState) {
-        //                // Respond when the drawer motion state changes
-        //            }
-        //        }
-        //);
-
+        myToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
 
         btnOrder = findViewById(R.id.btnOrder);
         btnSeeMyOrders = findViewById(R.id.btnSeeMyOrders);
@@ -68,17 +42,56 @@ public class MainMenu extends AppCompatActivity {
         setListeners();
         StartAnimation();
         DialogMenu();
+
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+   //@Override
+   //public boolean onOptionsItemSelected(MenuItem item) {
+   //    switch (item.getItemId()) {
+   //        case R.id.action_settings:
+   //            // User chose the "Settings" item, show the app settings UI...
+   //            return true;
+
+   //        default:
+   //            // If we got here, the user's action was not recognized.
+   //            // Invoke the superclass to handle it.
+   //            return super.onOptionsItemSelected(item);
+
+   //    }
+   //}
+
+    //@Override
+    //public boolean onCreateOptionsMenu(Menu menu) {
+    //    getMenuInflater().inflate(R.menu.menu, menu);
+    //    // ...
+//
+    //    // Define the listener
+    //    MenuItem.OnActionExpandListener expandListener = new MenuItem.OnActionExpandListener() {
+    //        @Override
+    //        public boolean onMenuItemActionCollapse(MenuItem item) {
+    //            // Do something when action item collapses
+    //            return true;  // Return true to collapse action view
+    //        }
+//
+    //        @Override
+    //        public boolean onMenuItemActionExpand(MenuItem item) {
+    //            // Do something when expanded
+    //            return true;  // Return true to expand action view
+    //        }
+    //    };
+//
+    //    // Get the MenuItem for the action item
+    //    MenuItem actionMenuItem = menu.findItem(R.id.toolbar);
+//
+    //    // Assign the listener to that action item
+    //    MenuItemCompat.setOnActionExpandListener(actionMenuItem, expandListener);
+//
+    //    // Any other things you have to do when creating the options menu...
+//
+    //    return true;
+    //}
+
 
     private void setListeners()
     {
