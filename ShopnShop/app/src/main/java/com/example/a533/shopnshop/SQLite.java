@@ -33,6 +33,8 @@ public class SQLite extends SQLiteOpenHelper {
 
     public SQLite(Context context) {
         super(context, DATABASENAME, null, 1);
+        SQLiteDatabase db = this.getWritableDatabase();
+        Log.d("meurt", "meurt");
     }
 
     @Override
@@ -43,6 +45,7 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TBLOBJECT_ORDER + "("+ IDORDER + " INTEGER NOT NULL," + IDOBJECT + " INTEGER NOT NULL, " +
                    "CONSTRAINT FK_IDorder FOREIGN KEY("+ IDORDER + ")" + "REFERENCES " + TBLORDERS + "(" + IDORDER + "), " +
                    "CONSTRAINT FK_IDOBJET FOREIGN KEY(" + IDOBJECT + ")" + "REFERENCES " + TBLOBJECTS + "(" + IDOBJECT + "))");
+        Log.d("meurt1", "meurt2");
         CreateItems();
     }
 
@@ -55,14 +58,13 @@ public class SQLite extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean InsertUser(String username, String password)
+    public void InsertUser(String username, String password)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(USERNAME, username);
         contentValues.put(PASSWORD, password);
-        long result = db.insert(TBLUSERS, null, contentValues);
-        return result != -1;
+        db.insert(TBLUSERS, null, contentValues);
     }
     public boolean InsertOrder(String orderName, boolean completed)
     {
@@ -75,10 +77,11 @@ public class SQLite extends SQLiteOpenHelper {
     }
     public void InsertObject(String objectName, int quantityLeft)
     {
+        Log.i("ici2", objectName);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(OBJECTNAME, objectName);
-        contentValues.put(QUANTITYLEFT, quantityLeft);
+        contentValues.put(QUANTITYLEFT, String.valueOf(quantityLeft));
         db.insert(TBLOBJECTS, null, contentValues);
     }
 
@@ -107,7 +110,7 @@ public class SQLite extends SQLiteOpenHelper {
         return res.getCount() > 0 ;
     }
 
-    private void CreateItems()
+    public void  ()
     {
         InsertObject("Potatoes", 10);
         InsertObject("Ketchup bottles", 18);
