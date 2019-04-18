@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URI;
 
 
@@ -54,6 +55,7 @@ ImageView imageView;
 
         Button btncamera=findViewById(R.id.button_takePicture);
         Button btngallery=findViewById(R.id.button_gallery);
+        Button btnSave=findViewById(R.id.button_enregistrerImage);
         imageView =findViewById(R.id.imageVieww);
 
         btncamera.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +76,16 @@ ImageView imageView;
 
             }
         });
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+
+            }
+        });
 
     }
+
 }
