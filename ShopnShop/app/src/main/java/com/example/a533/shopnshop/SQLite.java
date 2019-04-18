@@ -101,6 +101,12 @@ public class SQLite extends SQLiteOpenHelper {
         return user.getCount() > 0;
     }
 
+    public boolean verifyLoginUsername(String Username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TBLUSERS + " WHERE Username = \"" + Username + "\"",null);
+        return res.getCount() > 0 ;
+    }
+
     private void CreateItems()
     {
         InsertObject("Potatoes", 10);

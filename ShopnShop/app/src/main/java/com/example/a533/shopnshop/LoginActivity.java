@@ -35,16 +35,23 @@ public class LoginActivity extends AppCompatActivity {
         btnConnection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if (dbShop.VerifyCredentials(txtUsername.getText().toString(), txtPassword.getText().toString()))
-               {
-                    MoveToMainMenu();
-               }
-               else
-               {
-                   txtPassword.getText().clear();
-                   txtPassword.requestFocus();
-                   Toast.makeText(getApplicationContext(), "Username ou mot de passe invalide", Toast.LENGTH_SHORT).show();
-               }
+                if (dbShop.verifyLoginUsername(txtUsername.getText().toString()))
+                {
+                    if (dbShop.VerifyCredentials(txtUsername.getText().toString(), txtPassword.getText().toString()))
+                    {
+                        MoveToMainMenu();
+                    }
+                    else
+                    {
+                        txtPassword.getText().clear();
+                        txtPassword.requestFocus();
+                        Toast.makeText(getApplicationContext(), "Mot de passe invalide", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Username invalide", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
