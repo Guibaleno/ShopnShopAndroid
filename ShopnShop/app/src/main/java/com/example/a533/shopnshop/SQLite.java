@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 
 public class SQLite extends SQLiteOpenHelper {
@@ -70,14 +73,13 @@ public class SQLite extends SQLiteOpenHelper {
         long result = db.insert(TBLORDERS, null, contentValues);
         return result != -1;
     }
-    public boolean InsertObject(String objectName, int quantityLeft)
+    public void InsertObject(String objectName, int quantityLeft)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(OBJECTNAME, objectName);
         contentValues.put(QUANTITYLEFT, quantityLeft);
-        long result = db.insert(TBLOBJECTS, null, contentValues);
-        return result != -1;
+        db.insert(TBLOBJECTS, null, contentValues);
     }
 
     public Cursor getAllData(){
@@ -95,7 +97,7 @@ public class SQLite extends SQLiteOpenHelper {
     public boolean VerifyCredentials(String username, String password)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor user = db.rawQuery("SELECT * FROM tblUsers WHERE Username = \"" + username + "\" AND Password = \"" + password + "\"", null);
+        Cursor user = db.rawQuery("SELECT * FROM " + TBLUSERS + " WHERE Username = \"" + username + "\" AND Password = \"" + password + "\"", null);
         return user.getCount() > 0;
     }
 
@@ -105,6 +107,13 @@ public class SQLite extends SQLiteOpenHelper {
         InsertObject("Ketchup bottles", 18);
         InsertObject("Ceasar salad", 12);
         InsertObject("Garlic bread", 50);
+    }
+
+    public Cursor GetItemsToSell()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor items = db.rawQuery("SELECT " + OBJECTNAME + ", " + QUANTITYLEFT + " FROM " + TBLOBJECTS , null);
+        return items;
     }
 
 }

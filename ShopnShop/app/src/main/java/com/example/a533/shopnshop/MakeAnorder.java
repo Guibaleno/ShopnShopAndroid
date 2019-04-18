@@ -10,6 +10,7 @@ import java.util.List;
 
 public class MakeAnorder extends AppCompatActivity {
     RecyclerView recyclerItemsToOrder;
+    SQLite dbShop;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
