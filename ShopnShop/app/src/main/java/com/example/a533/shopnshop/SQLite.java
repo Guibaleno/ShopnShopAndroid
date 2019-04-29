@@ -125,6 +125,15 @@ public class SQLite extends SQLiteOpenHelper {
         InsertObject("Garlic bread", 50);
     }
 
+
+    public void  CreateOrders()
+    {
+        InsertOrder("scrub",true);
+        InsertOrder("scrub2",true);
+        InsertOrder("scrub3",false);
+        InsertOrder("scrub4",true);
+    }
+
     public List<ItemToSell> getItemsToSell()
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -138,6 +147,18 @@ public class SQLite extends SQLiteOpenHelper {
             }
         }
         return itemsToSell;
+    }
+
+    public List<String> GetCompletedOrders()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        List<String> ordersCompleted = new ArrayList<>();
+        Cursor OrdersCompleted = db.rawQuery("SELECT " + ORDERNAME + " FROM " + TBLORDERS + " WHERE completed = 1 ",null);
+        if(OrdersCompleted.getCount() != 0)
+        {
+            ordersCompleted.add(ordersCompleted.get(0));
+        }
+        return ordersCompleted;
     }
 
     public int getQuantity(int position)

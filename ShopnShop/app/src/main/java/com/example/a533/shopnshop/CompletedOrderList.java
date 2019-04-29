@@ -36,8 +36,8 @@ public class CompletedOrderList extends AppCompatActivity {
         List<String> OrdersToShow = new ArrayList<String>();
 //
         OrdersToShow = dbShop.GetCompletedOrders();
-        RecyclerView.Adapter data = new recycleViewItem(OrdersToShow);
-        recyclerItemsCompletedOrders.setAdapter(data);
+       // RecyclerView.Adapter data = new recycleViewItem(OrdersToShow);
+        //recyclerItemsCompletedOrders.setAdapter(data);
 //
 //
     }
