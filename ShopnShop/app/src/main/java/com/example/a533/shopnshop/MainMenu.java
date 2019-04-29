@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
 
 public class MainMenu extends AppCompatActivity {
+    LoginActivity mLoginActivity;
 
     Button btnOrder;
     Button btnSeeMyOrders;
@@ -46,51 +47,54 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
-   //@Override
-   //public boolean onOptionsItemSelected(MenuItem item) {
-   //    switch (item.getItemId()) {
-   //        case R.id.action_settings:
-   //            // User chose the "Settings" item, show the app settings UI...
-   //            return true;
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+      switch (item.getItemId()) {
+          case R.id.action_settings:
+              Deconnexion();
+              return true;
 
-   //        default:
-   //            // If we got here, the user's action was not recognized.
-   //            // Invoke the superclass to handle it.
-   //            return super.onOptionsItemSelected(item);
+          default:
+              // If we got here, the user's action was not recognized.
+              // Invoke the superclass to handle it.
+              return super.onOptionsItemSelected(item);
 
-   //    }
-   //}
+      }
+  }
 
-    //@Override
-    //public boolean onCreateOptionsMenu(Menu menu) {
-    //    getMenuInflater().inflate(R.menu.menu, menu);
-    //    // ...
+   @Override
+   public boolean onCreateOptionsMenu(Menu menu) {
+       getMenuInflater().inflate(R.menu.menu, menu);
+       // ...
 //
-    //    // Define the listener
-    //    MenuItem.OnActionExpandListener expandListener = new MenuItem.OnActionExpandListener() {
-    //        @Override
-    //        public boolean onMenuItemActionCollapse(MenuItem item) {
-    //            // Do something when action item collapses
-    //            return true;  // Return true to collapse action view
-    //        }
+       // Define the listener
+       MenuItem.OnActionExpandListener expandListener = new MenuItem.OnActionExpandListener() {
+           @Override
+           public boolean onMenuItemActionCollapse(MenuItem item) {
+               // Do something when action item collapses
+               return true;  // Return true to collapse action view
+           }
 //
-    //        @Override
-    //        public boolean onMenuItemActionExpand(MenuItem item) {
-    //            // Do something when expanded
-    //            return true;  // Return true to expand action view
-    //        }
-    //    };
+           @Override
+           public boolean onMenuItemActionExpand(MenuItem item) {
+               // Do something when expanded
+               return true;  // Return true to expand action view
+           }
+
+
+       };
+
+       // Get the MenuItem for the action item
+       MenuItem actionMenuItem = menu.findItem(R.id.toolbar);
 //
-    //    // Get the MenuItem for the action item
-    //    MenuItem actionMenuItem = menu.findItem(R.id.toolbar);
+       // Assign the listener to that action item
+
+      //actionMenuItem.setOnActionExpandListener(MenuItem.OnActionExpandListener);
 //
-    //    // Assign the listener to that action item
-    //    MenuItemCompat.setOnActionExpandListener(actionMenuItem, expandListener);
+       // Any other things you have to do when creating the options menu...
 //
-    //    // Any other things you have to do when creating the options menu...
-//
-    //    return true;
-    //}
+       return true;
+   }
 
 
     private void setListeners()
@@ -172,5 +176,9 @@ public class MainMenu extends AppCompatActivity {
             }
         });
         mAnimationSet.start();
+    }
+
+    private void Deconnexion(){
+        this.finish();
     }
 }

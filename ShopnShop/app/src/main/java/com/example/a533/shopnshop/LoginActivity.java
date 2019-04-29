@@ -60,5 +60,12 @@ public class LoginActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
+        EraseTextbox();
+    }
+
+    public void EraseTextbox()
+    {
+        txtUsername.getText().clear();
+        txtPassword.getText().clear();
     }
 }
