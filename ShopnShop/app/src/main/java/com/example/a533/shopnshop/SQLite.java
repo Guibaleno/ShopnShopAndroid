@@ -30,6 +30,12 @@ public class SQLite extends SQLiteOpenHelper {
     public static final String QUANTITYLEFT = "quantityLeft";
 
     public static final String TBLOBJECT_ORDER = "tblObject_Order";
+    public static final String DB_TABLE = "table_image";
+    public static final String KEY_NAME = "image_name";
+    public static final String KEY_IMAGE = "image_data";
+    public static final String CREATE_TABLE_IMAGE = "CREATE TABLE " + DB_TABLE + "("+
+            KEY_NAME + " TEXT," +
+            KEY_IMAGE + " BLOB);";
 
 
     public SQLite(Context context) {
@@ -45,6 +51,7 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TBLOBJECT_ORDER + "("+ IDORDER + " INTEGER NOT NULL," + IDOBJECT + " INTEGER NOT NULL, " +
                    "CONSTRAINT FK_IDorder FOREIGN KEY("+ IDORDER + ")" + "REFERENCES " + TBLORDERS + "(" + IDORDER + "), " +
                    "CONSTRAINT FK_IDOBJET FOREIGN KEY(" + IDOBJECT + ")" + "REFERENCES " + TBLOBJECTS + "(" + IDOBJECT + "))");
+        db.execSQL(CREATE_TABLE_IMAGE);
         //CreateItems();
     }
 
@@ -54,6 +61,7 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TBLOBJECT_ORDER);
         db.execSQL("DROP TABLE IF EXISTS " + TBLORDERS);
         db.execSQL("DROP TABLE IF EXISTS " + TBLOBJECTS);
+        db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE);
         onCreate(db);
         CreateItems();
     }
@@ -145,6 +153,26 @@ public class SQLite extends SQLiteOpenHelper {
         Cursor items = db.rawQuery("SELECT " + OBJECTNAME + " FROM " + TBLOBJECTS + " WHERE " + IDOBJECT + " = " + String.valueOf(position) , null);
         items.moveToFirst();
         return items.getString(0);
+    }
+    public void InsertPhoto(String name, String bitmap)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_NAME, name);
+        contentValues.put(KEY_IMAGE, bitmap);
+        db.insert(DB_TABLE, null, contentValues);
+       // Log.d("work","Inseryt");
+    }
+    public Cursor getPhoto(String NomPhoto){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor items = db.rawQuery("SELECT " + KEY_IMAGE + " FROM " + DB_TABLE + " WHERE image_name = \"" + NomPhoto + "\"",null);
+        return items ;
+    }
+
+    public Cursor getIdUser(String USer){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery(" SELECT " + USERNAME + " FROM " + TBLUSERS + " WHERE Username = \"" + USer + "\"",null);
+        return res;
     }
 
 }
