@@ -23,7 +23,9 @@
         <activity android:name=".photoActivity" />
         <activity android:name=".MakeAnorder" />
         <activity android:name=".MainMenu" />
-        <activity android:name=".SeeMyOrders"></activity>
+        <activity android:name=".SeeMyOrders" />
+        <activity android:name=".CompletedOrderList" />
+        <activity android:name=".SavedOrderList"></activity>
     </application>
 
 </manifest>

@@ -8,15 +8,12 @@
 
 
 
-        <!-- Settings, should always be in the overflow
+        <!-- Settings, should always be in the overflow-->
         <item android:id="@+id/action_settings"
-            android:title="@string/action_settings"
+            android:title="@string/Menu_Option1"
             app:showAsAction="never"/>
 
-        <item android:id="@+id/action_share"
-            android:title="@string/share"
-            app:showAsAction="ifRoom"
-            app:actionProviderClass="android.support.v7.widget.ShareActionProvider"/>-->
+
 
 
 </menu>
