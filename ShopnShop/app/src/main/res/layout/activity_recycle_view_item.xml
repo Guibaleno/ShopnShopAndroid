@@ -7,13 +7,33 @@
     tools:context=".recycleViewItem">
 
     <TextView
-        android:id="@+id/textRecycleViewItem"
+        android:id="@+id/txtItemName"
         android:layout_width="196dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/txtQuantityLeft"
+        app:layout_constraintHorizontal_bias="0.064"
         app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <TextView
+        android:id="@+id/txtQuantityLeft"
+        android:layout_width="40dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/btnBuy"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <Button
+        android:id="@+id/btnBuy"
+        android:layout_width="60dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:text="Buy"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteY="0dp" />
 </android.support.constraint.ConstraintLayout>

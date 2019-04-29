@@ -5,9 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SQLite extends SQLiteOpenHelper {
@@ -34,7 +35,6 @@ public class SQLite extends SQLiteOpenHelper {
     public SQLite(Context context) {
         super(context, DATABASENAME, null, 1);
         SQLiteDatabase db = this.getWritableDatabase();
-        Log.d("meurt", "meurt");
     }
 
     @Override
@@ -45,8 +45,7 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TBLOBJECT_ORDER + "("+ IDORDER + " INTEGER NOT NULL," + IDOBJECT + " INTEGER NOT NULL, " +
                    "CONSTRAINT FK_IDorder FOREIGN KEY("+ IDORDER + ")" + "REFERENCES " + TBLORDERS + "(" + IDORDER + "), " +
                    "CONSTRAINT FK_IDOBJET FOREIGN KEY(" + IDOBJECT + ")" + "REFERENCES " + TBLOBJECTS + "(" + IDOBJECT + "))");
-        Log.d("meurt1", "meurt2");
-        CreateItems();
+        //CreateItems();
     }
 
     @Override
@@ -56,6 +55,7 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TBLORDERS);
         db.execSQL("DROP TABLE IF EXISTS " + TBLOBJECTS);
         onCreate(db);
+        CreateItems();
     }
 
     public void InsertUser(String username, String password)
@@ -77,7 +77,6 @@ public class SQLite extends SQLiteOpenHelper {
     }
     public void InsertObject(String objectName, int quantityLeft)
     {
-        Log.i("ici2", objectName);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(OBJECTNAME, objectName);
@@ -110,7 +109,7 @@ public class SQLite extends SQLiteOpenHelper {
         return res.getCount() > 0 ;
     }
 
-    public void  ()
+    public void CreateItems()
     {
         InsertObject("Potatoes", 10);
         InsertObject("Ketchup bottles", 18);
@@ -118,11 +117,34 @@ public class SQLite extends SQLiteOpenHelper {
         InsertObject("Garlic bread", 50);
     }
 
-    public Cursor GetItemsToSell()
+    public List<ItemToSell> getItemsToSell()
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor items = db.rawQuery("SELECT " + OBJECTNAME + ", " + QUANTITYLEFT + " FROM " + TBLOBJECTS , null);
-        return items;
+        Cursor items = db.rawQuery("SELECT " + IDOBJECT + "," + OBJECTNAME + ", " + QUANTITYLEFT + " FROM " + TBLOBJECTS + " ORDER BY " + OBJECTNAME , null);
+        List<ItemToSell> itemsToSell = new ArrayList<>();
+        if (items.getCount() != 0)
+        {
+            while (items.moveToNext())
+            {
+                itemsToSell.add(new ItemToSell(items.getString(1),items.getString(2), items.getString(0)));
+            }
+        }
+        return itemsToSell;
+    }
+
+    public int getQuantity(int position)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor items = db.rawQuery("SELECT " + QUANTITYLEFT + " FROM " + TBLOBJECTS + " WHERE " + IDOBJECT + " = " + String.valueOf(position) , null);
+        return items.getInt(position);
+    }
+
+    public String getObject(int position)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor items = db.rawQuery("SELECT " + OBJECTNAME + " FROM " + TBLOBJECTS + " WHERE " + IDOBJECT + " = " + String.valueOf(position) , null);
+        items.moveToFirst();
+        return items.getString(0);
     }
 
 }

@@ -13,14 +13,28 @@ import java.util.List;
 
 public class MakeAnorder extends AppCompatActivity {
     RecyclerView recyclerItemsToOrder;
+    RecyclerView recyclerItemsCurrentOrder;
     SQLite dbShop;
+    List<ItemToSell> itemsToSell;
+    List<ItemToSell> itemsToSellOrder;
+    RecyclerView.Adapter dataCurrentOrder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_makeanorder);
         dbShop = new SQLite(this);
-        dbShop.CreateItems();
+        itemsToSell = dbShop.getItemsToSell();
+        itemsToSellOrder = new ArrayList<>();
         recyclerItemsToOrder = findViewById(R.id.recyclerItemsToOrder);
+        recyclerItemsCurrentOrder = findViewById(R.id.recyclerCurrentOrder);
+
+        recyclerItemsCurrentOrder.setHasFixedSize(true);
+        LinearLayoutManager allo = new LinearLayoutManager(this);
+        recyclerItemsCurrentOrder.setLayoutManager(allo);
+        dataCurrentOrder= new ItemCurrentOrder(this, itemsToSellOrder);
+        recyclerItemsCurrentOrder.setAdapter(dataCurrentOrder);
+
+
         InsertDataIntoRecyclerView();
     }
 
@@ -29,19 +43,14 @@ public class MakeAnorder extends AppCompatActivity {
        recyclerItemsToOrder.setHasFixedSize(true);
        LinearLayoutManager allo = new LinearLayoutManager(this);
        recyclerItemsToOrder.setLayoutManager(allo);
-       List<String> itemsToSell = new ArrayList<String>();
-
-       Cursor items = dbShop.GetItemsToSell();
-       Log.d("asdj", String.valueOf(items.getCount()));
-        if (items.getCount() != 0)
+        if (itemsToSell.size() != 0)
         {
-            while (items.moveToNext())
-            {
-                itemsToSell.add(items.getString(0));
-            }
-            itemsToSell.add("test");
-            itemsToSell.add("test2");
-            RecyclerView.Adapter data = new recycleViewItem(itemsToSell);
+            RecyclerView.Adapter data = new recycleViewItem(itemsToSell, new onBuy() {
+                @Override
+                public void addToOrder(int idItem, int quantity) {
+                    InsertItemToOrder(Integer.parseInt(itemsToSell.get(0).getIdItem()), quantity);
+                }
+            });
             recyclerItemsToOrder.setAdapter(data);
         }
         else
@@ -51,4 +60,21 @@ public class MakeAnorder extends AppCompatActivity {
 
 
     }
+
+    public void InsertItemToOrder(int idItem, int quantity)
+    {
+        itemsToSellOrder.add(new ItemToSell(dbShop.getObject(idItem),String.valueOf(quantity), String.valueOf(idItem)));
+
+        Log.d("idItem", String.valueOf(idItem));
+        Log.d("quantity", String.valueOf(quantity));
+        dataCurrentOrder.notifyDataSetChanged();
+        //recyclerItemsCurrentOrder.notifyDataSetChanged();
+    }
+
+    public interface onBuy
+    {
+        void addToOrder(int idItem, int quantity);
+    }
+
+
 }
