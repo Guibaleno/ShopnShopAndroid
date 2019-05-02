@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,9 @@ public class SQLite extends SQLiteOpenHelper {
     public SQLite(Context context) {
         super(context, DATABASENAME, null, 1);
         SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TBLORDERS);
+        db.execSQL("CREATE TABLE " + TBLORDERS + "("+ IDORDER + " INTEGER PRIMARY KEY," + ORDERNAME + " TEXT NOT NULL , " + COMPLETED  +" INTEGER NOT NULL);");
+        CreateOrders();
     }
 
     @Override
@@ -64,6 +68,7 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE);
         onCreate(db);
         CreateItems();
+
     }
 
     public void InsertUser(String username, String password)
@@ -79,7 +84,7 @@ public class SQLite extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ORDERNAME, orderName);
-        contentValues.put(PASSWORD, (completed) ? 1 : 0);
+        contentValues.put(COMPLETED, (completed) ? 1 : 0);
         long result = db.insert(TBLORDERS, null, contentValues);
         return result != -1;
     }
@@ -149,15 +154,23 @@ public class SQLite extends SQLiteOpenHelper {
         return itemsToSell;
     }
 
-    public List<String> GetCompletedOrders()
+    public List<OrdersList> GetCompletedOrders()
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        List<String> ordersCompleted = new ArrayList<>();
+        List<OrdersList> ordersCompleted = new ArrayList<>();
         Cursor OrdersCompleted = db.rawQuery("SELECT " + ORDERNAME + " FROM " + TBLORDERS + " WHERE completed = 1 ",null);
+        OrdersCompleted.moveToFirst();
+        Log.d("ddd", OrdersCompleted.toString());
         if(OrdersCompleted.getCount() != 0)
         {
-            ordersCompleted.add(ordersCompleted.get(0));
+            Log.d("dd1d", ordersCompleted.toString());
+            while (OrdersCompleted.moveToNext())
+            {
+                Log.d("d3dd", ordersCompleted.toString());
+                ordersCompleted.add(new OrdersList(OrdersCompleted.getString(0)));
+            }
         }
+        Log.d("ddd", ordersCompleted.toString());
         return ordersCompleted;
     }
 

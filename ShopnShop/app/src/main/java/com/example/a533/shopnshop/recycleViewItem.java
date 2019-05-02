@@ -3,7 +3,6 @@ package com.example.a533.shopnshop;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -29,7 +27,7 @@ public class recycleViewItem extends RecyclerView.Adapter <recycleViewItem.MyVie
         public MyViewHolder(View v) {
             super(v);
             textViewItemName = (TextView) v.findViewById(R.id.txtItemName);
-            textViewQuantity = (TextView) v.findViewById(R.id.txtQuantityLeft);
+            textViewQuantity = (TextView) v.findViewById(R.id.txtItemName);
             btnBuy = (Button) v.findViewById(R.id.btnBuy);
         }
     }

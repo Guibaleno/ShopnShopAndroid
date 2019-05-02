@@ -14,7 +14,7 @@ public class CompletedOrderList extends AppCompatActivity {
 
     RecyclerView recyclerItemsCompletedOrders;
     SQLite dbShop;
-
+    List<OrdersList> OrdersToShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class CompletedOrderList extends AppCompatActivity {
         setContentView(R.layout.activity_completed_order_list);
 
         dbShop = new SQLite(this);
-        dbShop.CreateOrders();
+        OrdersToShow = dbShop.GetCompletedOrders();
 
         recyclerItemsCompletedOrders = findViewById(R.id.RecyclerViewCompletedOrdersList);
         InsertDataIntoRecyclerView();
@@ -30,15 +30,21 @@ public class CompletedOrderList extends AppCompatActivity {
 
     private void InsertDataIntoRecyclerView()
     {
+        Log.d("msg", dbShop.GetCompletedOrders().toString());
         recyclerItemsCompletedOrders.setHasFixedSize(true);
-        LinearLayoutManager allo = new LinearLayoutManager(this);
-        recyclerItemsCompletedOrders.setLayoutManager(allo);
-        List<String> OrdersToShow = new ArrayList<String>();
-//
-        OrdersToShow = dbShop.GetCompletedOrders();
-       // RecyclerView.Adapter data = new recycleViewItem(OrdersToShow);
-        //recyclerItemsCompletedOrders.setAdapter(data);
-//
-//
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerItemsCompletedOrders.setLayoutManager(layoutManager);
+        if (OrdersToShow.size() != 0)
+        {
+            RecyclerView.Adapter data = new RecycleViewOrders(this, OrdersToShow);
+            recyclerItemsCompletedOrders.setAdapter(data);
+        }
+        else
+        {
+
+        }
+
     }
+
+
 }
