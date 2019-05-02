@@ -14,7 +14,7 @@ public class RecycleViewOrders extends RecyclerView.Adapter <RecycleViewOrders.M
 
     private List<OrdersList> mDataset;
     Context context;
-    CompletedOrderList completedOrderList;
+    OrderList orderList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewItemName;
@@ -25,8 +25,8 @@ public class RecycleViewOrders extends RecyclerView.Adapter <RecycleViewOrders.M
         }
     }
 
-    public RecycleViewOrders(CompletedOrderList newCompletedOrderList,List<OrdersList> myDataset) {
-        completedOrderList = newCompletedOrderList;
+    public RecycleViewOrders(OrderList newOrderList, List<OrdersList> myDataset) {
+        orderList = newOrderList;
         mDataset = myDataset;
     }
 

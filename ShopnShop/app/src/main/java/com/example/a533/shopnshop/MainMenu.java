@@ -122,6 +122,7 @@ public class MainMenu extends AppCompatActivity {
     private void MoveToMakeAnOrder()
     {
         Intent intent = new Intent(this, MakeAnorder.class);
+        intent.putExtra("Username", getIntent().getStringExtra("Username"));
         startActivity(intent);
     }
     private void MoveToSeeMyOrders()

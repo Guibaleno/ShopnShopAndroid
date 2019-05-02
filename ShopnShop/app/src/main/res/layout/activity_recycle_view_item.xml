@@ -7,7 +7,7 @@
     tools:context=".recycleViewItem">
 
     <TextView
-        android:id="@+id/txtItemName"
+        android:id="@+id/txtQuantity"
         android:layout_width="40dp"
         android:layout_height="32dp"
         android:layout_marginEnd="8dp"

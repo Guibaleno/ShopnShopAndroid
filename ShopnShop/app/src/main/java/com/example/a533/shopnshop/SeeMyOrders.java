@@ -41,12 +41,14 @@ public class SeeMyOrders extends AppCompatActivity {
 
     private void MoveToCompletedOrderList()
     {
-        Intent intent = new Intent(this, CompletedOrderList.class);
+        Intent intent = new Intent(this, OrderList.class);
+        intent.putExtra("OrderType", "Completed");
         startActivity(intent);
     }
     private void MoveToSavedOrderList()
     {
-        Intent intent = new Intent(this, SavedOrderList.class);
+        Intent intent = new Intent(this, OrderList.class);
+        intent.putExtra("OrderType", "Saved");
         startActivity(intent);
     }
 

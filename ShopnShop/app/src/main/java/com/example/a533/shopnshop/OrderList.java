@@ -10,7 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompletedOrderList extends AppCompatActivity {
+public class OrderList extends AppCompatActivity {
 
     RecyclerView recyclerItemsCompletedOrders;
     SQLite dbShop;
@@ -22,15 +22,22 @@ public class CompletedOrderList extends AppCompatActivity {
         setContentView(R.layout.activity_completed_order_list);
 
         dbShop = new SQLite(this);
-        OrdersToShow = dbShop.GetCompletedOrders();
-
+        String orderType = getIntent().getStringExtra("OrderType");
+        if (orderType.equals("Completed"))
+        {
+            orderType = "1";
+        }
+        else
+        {
+            orderType = "0";
+        }
+        OrdersToShow = dbShop.GetOrders(orderType);
         recyclerItemsCompletedOrders = findViewById(R.id.RecyclerViewCompletedOrdersList);
         InsertDataIntoRecyclerView();
     }
 
     private void InsertDataIntoRecyclerView()
     {
-        Log.d("msg", dbShop.GetCompletedOrders().toString());
         recyclerItemsCompletedOrders.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerItemsCompletedOrders.setLayoutManager(layoutManager);

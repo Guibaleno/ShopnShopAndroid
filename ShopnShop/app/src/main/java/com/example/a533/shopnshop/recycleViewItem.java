@@ -3,14 +3,17 @@ package com.example.a533.shopnshop;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,7 +30,7 @@ public class recycleViewItem extends RecyclerView.Adapter <recycleViewItem.MyVie
         public MyViewHolder(View v) {
             super(v);
             textViewItemName = (TextView) v.findViewById(R.id.txtItemName);
-            textViewQuantity = (TextView) v.findViewById(R.id.txtItemName);
+            textViewQuantity = (TextView) v.findViewById(R.id.txtQuantity);
             btnBuy = (Button) v.findViewById(R.id.btnBuy);
         }
     }
@@ -49,7 +52,7 @@ public class recycleViewItem extends RecyclerView.Adapter <recycleViewItem.MyVie
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.textViewItemName.setText(mDataset.get(position).getName());
         holder.textViewQuantity.setText(mDataset.get(position).getQuantity());
         holder.btnBuy.setOnClickListener(new View.OnClickListener() {
@@ -65,12 +68,16 @@ public class recycleViewItem extends RecyclerView.Adapter <recycleViewItem.MyVie
                 builder.setView(input);
 
 // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //m_Text = input.getText().toString();
-                        //RecyclerView.Adapter data = new ItemCurrentOrder(input.getText().toString());
-                        onBuyCallback.addToOrder(0,Integer.parseInt(input.getText().toString()));
+                        dialog.dismiss();
+                    }
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onBuyCallback.addToOrder(position,Integer.parseInt(input.getText().toString()));
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

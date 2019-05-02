@@ -42,15 +42,12 @@ public class SQLite extends SQLiteOpenHelper {
     public SQLite(Context context) {
         super(context, DATABASENAME, null, 1);
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DROP TABLE IF EXISTS " + TBLORDERS);
-        db.execSQL("CREATE TABLE " + TBLORDERS + "("+ IDORDER + " INTEGER PRIMARY KEY," + ORDERNAME + " TEXT NOT NULL , " + COMPLETED  +" INTEGER NOT NULL);");
-        CreateOrders();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TBLUSERS + "("+ IDUSER + " INTEGER PRIMARY KEY," + USERNAME + " TEXT NOT NULL UNIQUE, " + PASSWORD  +" TEXT NOT NULL);");
-        db.execSQL("CREATE TABLE " + TBLORDERS + "("+ IDORDER + " INTEGER PRIMARY KEY," + ORDERNAME + " TEXT NOT NULL , " + COMPLETED  +" INTEGER NOT NULL);");
+        db.execSQL("CREATE TABLE " + TBLORDERS + "("+ IDORDER + " INTEGER PRIMARY KEY," + IDUSER + " INTEGER NOT NULL," + ORDERNAME + " TEXT NOT NULL , " + COMPLETED  +" INTEGER NOT NULL);");
         db.execSQL("CREATE TABLE " + TBLOBJECTS + "("+ IDOBJECT + " INTEGER PRIMARY KEY," + OBJECTNAME + " TEXT NOT NULL ," + QUANTITYLEFT + " INTEGER NOT NULL);");
         db.execSQL("CREATE TABLE " + TBLOBJECT_ORDER + "("+ IDORDER + " INTEGER NOT NULL," + IDOBJECT + " INTEGER NOT NULL, " +
                    "CONSTRAINT FK_IDorder FOREIGN KEY("+ IDORDER + ")" + "REFERENCES " + TBLORDERS + "(" + IDORDER + "), " +
@@ -79,13 +76,15 @@ public class SQLite extends SQLiteOpenHelper {
         contentValues.put(PASSWORD, password);
         db.insert(TBLUSERS, null, contentValues);
     }
-    public boolean InsertOrder(String orderName, boolean completed)
+    public boolean InsertOrder(String orderName, String username, boolean completed)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ORDERNAME, orderName);
+        contentValues.put(IDUSER, getIdUser(username));
         contentValues.put(COMPLETED, (completed) ? 1 : 0);
         long result = db.insert(TBLORDERS, null, contentValues);
+        Log.d("result", String.valueOf(result));
         return result != -1;
     }
     public void InsertObject(String objectName, int quantityLeft)
@@ -131,14 +130,6 @@ public class SQLite extends SQLiteOpenHelper {
     }
 
 
-    public void  CreateOrders()
-    {
-        InsertOrder("scrub",true);
-        InsertOrder("scrub2",true);
-        InsertOrder("scrub3",false);
-        InsertOrder("scrub4",true);
-    }
-
     public List<ItemToSell> getItemsToSell()
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -154,23 +145,19 @@ public class SQLite extends SQLiteOpenHelper {
         return itemsToSell;
     }
 
-    public List<OrdersList> GetCompletedOrders()
+    public List<OrdersList> GetOrders(String completedBool)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         List<OrdersList> ordersCompleted = new ArrayList<>();
-        Cursor OrdersCompleted = db.rawQuery("SELECT " + ORDERNAME + " FROM " + TBLORDERS + " WHERE completed = 1 ",null);
+        Cursor OrdersCompleted = db.rawQuery("SELECT " + ORDERNAME + " FROM " + TBLORDERS + " WHERE completed = " + completedBool,null);
         OrdersCompleted.moveToFirst();
-        Log.d("ddd", OrdersCompleted.toString());
         if(OrdersCompleted.getCount() != 0)
         {
-            Log.d("dd1d", ordersCompleted.toString());
             while (OrdersCompleted.moveToNext())
             {
-                Log.d("d3dd", ordersCompleted.toString());
                 ordersCompleted.add(new OrdersList(OrdersCompleted.getString(0)));
             }
         }
-        Log.d("ddd", ordersCompleted.toString());
         return ordersCompleted;
     }
 
@@ -178,7 +165,8 @@ public class SQLite extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor items = db.rawQuery("SELECT " + QUANTITYLEFT + " FROM " + TBLOBJECTS + " WHERE " + IDOBJECT + " = " + String.valueOf(position) , null);
-        return items.getInt(position);
+        items.moveToFirst();
+        return items.getInt(0);
     }
 
     public String getObject(int position)
@@ -203,10 +191,17 @@ public class SQLite extends SQLiteOpenHelper {
         return items ;
     }
 
-    public Cursor getIdUser(String USer){
+    public int getIdUser(String User){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery(" SELECT " + USERNAME + " FROM " + TBLUSERS + " WHERE Username = \"" + USer + "\"",null);
-        return res;
+        Cursor res = db.rawQuery(" SELECT " + IDUSER + " FROM " + TBLUSERS + " WHERE Username = \"" + User + "\"",null);
+        res.moveToFirst();
+        return res.getInt(0);
+    }
+
+    public void updateItemQuantity(ItemToSell currentItem)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE " + TBLOBJECTS  + " SET " + QUANTITYLEFT + " = " + QUANTITYLEFT + " - " + currentItem.getQuantity() + " WHERE " + OBJECTNAME + " = \"" + currentItem.getName() + "\"");
     }
 
 }

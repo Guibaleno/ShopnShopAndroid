@@ -26,8 +26,7 @@
         <activity android:name=".MakeAnorder" />
         <activity android:name=".MainMenu" />
         <activity android:name=".SeeMyOrders" />
-        <activity android:name=".CompletedOrderList" />
-        <activity android:name=".SavedOrderList" />
+        <activity android:name=".OrderList" />
         <activity android:name=".RecycleViewOrders"></activity>
     </application>
 
