@@ -132,6 +132,9 @@ public class MainMenu extends AppCompatActivity {
     private void MoveToProfilePicture()
     {
         Intent intent = new Intent(this, photoActivity.class);
+        Intent i = getIntent();
+        String allo=i.getStringExtra("User");
+        intent.putExtra("User",allo);
         startActivity(intent);
     }
 

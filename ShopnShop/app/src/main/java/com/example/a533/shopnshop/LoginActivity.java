@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     private void MoveToMainMenu()
     {
         Intent intent = new Intent(this, MainMenu.class);
+        intent.putExtra("User",txtUsername.getText().toString());
         startActivity(intent);
         EraseTextbox();
     }

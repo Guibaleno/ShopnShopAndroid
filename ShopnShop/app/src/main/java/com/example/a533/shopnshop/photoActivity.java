@@ -23,6 +23,8 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.URI;
 
 
@@ -65,15 +67,28 @@ public class photoActivity extends AppCompatActivity {
         Button btngallery = findViewById(R.id.button_gallery);
         Button btnSave = findViewById(R.id.button_enregistrerImage);
         imageView = findViewById(R.id.imageVieww);
+        Intent i = getIntent();
+        final String allo = i.getStringExtra("User");
+        AfficherphotoDeProfil(allo);
+
 
         btncamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePicture, 0);
+                                         @Override
+                                         public void onClick(View v) {
+                                             Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                         //    try {
+                                                 startActivityForResult(takePicture, 0);
+                                         //    }
 
-            }
-        });
+                                         //    catch (SecurityException aa) {
+
+                                                 Toast.makeText(getApplicationContext(), "Activivé l'appareil photo", Toast.LENGTH_SHORT).show();
+
+
+                                           //  }
+                                         }
+                                     });
+
         btngallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,36 +102,25 @@ public class photoActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                imageView.invalidate();
                 BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                 Bitmap bitmap = drawable.getBitmap();
-
+                Bitmap bitmap = drawable.getBitmap();
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG,100,os);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
                 byte[] byteArray = os.toByteArray();
-
-             //   dbShop.
-                dbShop.InsertPhoto("allo00",Base64.encodeToString(byteArray, 0).toString());
-            }
-        });
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                Cursor items = dbShop.getPhoto("allo00");
-
-                if (items.getCount() != 0) {
-                    items.moveToNext();
-                        Toast.makeText(getApplicationContext(), items.getString(0), Toast.LENGTH_LONG).show();
-
-                        byte[] decodedString = Base64.decode(items.getString(0), Base64.DEFAULT);
-                    imageView.setImageBitmap( BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
-
-                }
-
-
+                dbShop.InsertPhoto(allo, Base64.encodeToString(byteArray, 0).toString());
+                Toast.makeText(getApplicationContext(), "Votre photo a été enregistrée", Toast.LENGTH_SHORT).show();
 
             }
         });
+    }
+
+    private void AfficherphotoDeProfil(String User) {
+        Cursor items = dbShop.getPhoto(User);
+        if (items.getCount() != 0) {
+            items.moveToNext();
+            byte[] decodedString = Base64.decode(items.getString(0), Base64.DEFAULT);
+            imageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+
+        }
     }
 
 }
