@@ -70,7 +70,7 @@ public class photoActivity extends AppCompatActivity {
         Button btnSave = findViewById(R.id.button_enregistrerImage);
         imageView = findViewById(R.id.imageVieww);
         Intent i = getIntent();
-        final String allo = i.getStringExtra("User");
+        final String allo = i.getStringExtra("Username");
         AfficherphotoDeProfil(allo);
 
         myToolbar = findViewById(R.id.toolbar);

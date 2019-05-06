@@ -23,6 +23,7 @@ public class MainMenu extends AppCompatActivity {
     Button btnSeeMyOrders;
     Button btnChangeProfilePicture;
     Toolbar myToolbar;
+    SQLite dbShop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class MainMenu extends AppCompatActivity {
 
         myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-
+        dbShop = new SQLite(this);
         btnOrder = findViewById(R.id.btnOrder);
         btnSeeMyOrders = findViewById(R.id.btnSeeMyOrders);
         btnChangeProfilePicture = findViewById(R.id.btnChangeProfilePicture);
@@ -130,21 +131,23 @@ public class MainMenu extends AppCompatActivity {
     private void MoveToSeeMyOrders()
     {
         Intent intent = new Intent(this, SeeMyOrders.class);
+        intent.putExtra("Username", getIntent().getStringExtra("Username"));
         startActivity(intent);
     }
     private void MoveToProfilePicture()
     {
         Intent intent = new Intent(this, photoActivity.class);
         Intent i = getIntent();
-        String allo=i.getStringExtra("User");
-        intent.putExtra("User",allo);
+        String allo=i.getStringExtra("Username");
+        intent.putExtra("Username",allo);
         startActivity(intent);
     }
 
 
     private void DialogMenu(){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("Vous avez X commande");
+        int quantityOrder = dbShop.getOrderQuantityForUser(getIntent().getStringExtra("Username"));
+        builder1.setMessage("Vous avez " + String.valueOf(quantityOrder) +" commande");
         builder1.setCancelable(true);
 
         builder1.setPositiveButton(

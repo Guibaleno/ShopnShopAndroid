@@ -42,6 +42,7 @@ public class SQLite extends SQLiteOpenHelper {
     public SQLite(Context context) {
         super(context, DATABASENAME, null, 1);
         SQLiteDatabase db = this.getWritableDatabase();
+        CreateItems();
     }
 
     @Override
@@ -53,7 +54,7 @@ public class SQLite extends SQLiteOpenHelper {
                    "CONSTRAINT FK_IDorder FOREIGN KEY("+ IDORDER + ")" + "REFERENCES " + TBLORDERS + "(" + IDORDER + "), " +
                    "CONSTRAINT FK_IDOBJET FOREIGN KEY(" + IDOBJECT + ")" + "REFERENCES " + TBLOBJECTS + "(" + IDOBJECT + "))");
         db.execSQL(CREATE_TABLE_IMAGE);
-        //CreateItems();
+
     }
 
     @Override
@@ -84,7 +85,7 @@ public class SQLite extends SQLiteOpenHelper {
         contentValues.put(IDUSER, getIdUser(username));
         contentValues.put(COMPLETED, (completed) ? 1 : 0);
         long result = db.insert(TBLORDERS, null, contentValues);
-        Log.d("result", String.valueOf(result));
+        Log.d("result", String.valueOf(completed));
         return result != -1;
     }
     public void InsertObject(String objectName, int quantityLeft)
@@ -123,10 +124,13 @@ public class SQLite extends SQLiteOpenHelper {
 
     public void CreateItems()
     {
-        InsertObject("Potatoes", 10);
-        InsertObject("Ketchup bottles", 18);
-        InsertObject("Ceasar salad", 12);
-        InsertObject("Garlic bread", 50);
+        if (getItemsToSell().size() == 0)
+        {
+            InsertObject("Potatoes", 10);
+            InsertObject("Ketchup bottles", 18);
+            InsertObject("Ceasar salad", 12);
+            InsertObject("Garlic bread", 50);
+        }
     }
 
 
@@ -145,19 +149,17 @@ public class SQLite extends SQLiteOpenHelper {
         return itemsToSell;
     }
 
-    public List<OrdersList> GetOrders(String completedBool)
+    public List<OrdersList> GetOrders(String completedBool, String username)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         List<OrdersList> ordersCompleted = new ArrayList<>();
-        Cursor OrdersCompleted = db.rawQuery("SELECT " + ORDERNAME + " FROM " + TBLORDERS + " WHERE completed = " + completedBool,null);
+        int idUser = getIdUser(username);
+        Cursor OrdersCompleted = db.rawQuery("SELECT " + ORDERNAME + " FROM " + TBLORDERS + " WHERE " + IDUSER + " = " + idUser + " AND " + COMPLETED + " = " + completedBool,null);
         OrdersCompleted.moveToFirst();
-        if(OrdersCompleted.getCount() != 0)
-        {
             while (OrdersCompleted.moveToNext())
             {
                 ordersCompleted.add(new OrdersList(OrdersCompleted.getString(0)));
             }
-        }
         return ordersCompleted;
     }
 
@@ -183,7 +185,6 @@ public class SQLite extends SQLiteOpenHelper {
         contentValues.put(KEY_NAME, name);
         contentValues.put(KEY_IMAGE, bitmap);
         db.insert(DB_TABLE, null, contentValues);
-       // Log.d("work","Inseryt");
     }
     public Cursor getPhoto(String NomPhoto){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -204,4 +205,12 @@ public class SQLite extends SQLiteOpenHelper {
         db.execSQL("UPDATE " + TBLOBJECTS  + " SET " + QUANTITYLEFT + " = " + QUANTITYLEFT + " - " + currentItem.getQuantity() + " WHERE " + OBJECTNAME + " = \"" + currentItem.getName() + "\"");
     }
 
+    public int getOrderQuantityForUser(String username)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int idUser = getIdUser(username);
+        Cursor res = db.rawQuery(" SELECT COUNT(" + TBLORDERS + "." + IDUSER + ")  FROM " + TBLORDERS + " WHERE " + IDUSER + " = \"" + idUser + "\"",null);
+        res.moveToFirst();
+        return res.getInt(0);
+    }
 }

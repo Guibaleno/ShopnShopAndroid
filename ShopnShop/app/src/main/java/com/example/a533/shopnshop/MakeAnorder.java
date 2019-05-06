@@ -1,15 +1,19 @@
 package com.example.a533.shopnshop;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -36,8 +40,9 @@ public class MakeAnorder extends AppCompatActivity {
         recyclerItemsToOrder = findViewById(R.id.recyclerItemsToOrder);
         recyclerItemsCurrentOrder = findViewById(R.id.recyclerCurrentOrder);
         btnCompleteOrder = findViewById(R.id.btnCompleteOrder);
+        btnCompleteOrder.setEnabled(false);
         btnCompleteOrderLater = findViewById(R.id.btnCompleteOrderLater);
-
+        btnCompleteOrderLater.setEnabled(false);
 
         myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -127,21 +132,17 @@ public class MakeAnorder extends AppCompatActivity {
                 @Override
                 public void addToOrder(int idItem, int quantity) {
                     InsertItemToOrder(Integer.parseInt(itemsToSell.get(idItem).getIdItem()), quantity);
+                    btnCompleteOrder.setEnabled(true);
+                    btnCompleteOrderLater.setEnabled(true);
                 }
             });
             recyclerItemsToOrder.setAdapter(data);
-        }
-        else
-        {
-
         }
 
     }
 
     public void InsertItemToOrder(int idItem, int quantity)
     {
-        Log.d("idItem", String.valueOf(idItem));
-        Log.d("quantity", String.valueOf(quantity));
         if (quantity <= dbShop.getQuantity(idItem))
         {
             itemsToSellOrder.add(new ItemToSell(dbShop.getObject(idItem),String.valueOf(quantity), String.valueOf(idItem)));
@@ -158,17 +159,72 @@ public class MakeAnorder extends AppCompatActivity {
         btnCompleteOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int cptItem = 0; cptItem < itemsToSellOrder.size(); cptItem ++)
-                {
-                    dbShop.updateItemQuantity(itemsToSellOrder.get(cptItem));
-                }
-                dbShop.InsertOrder("123ChaChaCha", getIntent().getStringExtra("Username").toString(), true);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MakeAnorder.this);
+                builder.setTitle("Choose a name for your order");
+
+                final EditText input = new EditText(MakeAnorder.this);
+
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("Size", String.valueOf(itemsToSellOrder.size()));
+                        for (int cptItem = 0; cptItem < itemsToSellOrder.size(); cptItem ++)
+                        {
+                            dbShop.updateItemQuantity(itemsToSellOrder.get(cptItem));
+                            itemsToSellOrder.remove(cptItem);
+                        }
+                        dbShop.InsertOrder(input.getText().toString(), getIntent().getStringExtra("Username").toString(), true);
+                        btnCompleteOrder.setEnabled(false);
+                        btnCompleteOrderLater.setEnabled(false);
+                        dataCurrentOrder.notifyDataSetChanged();
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
             }
         });
         btnCompleteOrderLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbShop.InsertOrder("123ChaChaCha", getIntent().getStringExtra("Username").toString(), false);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MakeAnorder.this);
+                builder.setTitle("Choose a name for your order");
+
+                final EditText input = new EditText(MakeAnorder.this);
+
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int cptItem = 0; cptItem < itemsToSellOrder.size(); cptItem ++)
+                        {
+                            dbShop.updateItemQuantity(itemsToSellOrder.get(cptItem));
+                        }
+                        dbShop.InsertOrder(input.getText().toString(), getIntent().getStringExtra("Username").toString(), false);
+                        btnCompleteOrder.setEnabled(false);
+                        btnCompleteOrderLater.setEnabled(false);
+                        itemsToSellOrder = new ArrayList<>();
+                        dataCurrentOrder.notifyDataSetChanged();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
             }
         });
     }

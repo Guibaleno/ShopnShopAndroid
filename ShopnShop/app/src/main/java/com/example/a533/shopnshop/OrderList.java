@@ -35,7 +35,7 @@ public class OrderList extends AppCompatActivity {
         {
             orderType = "0";
         }
-        OrdersToShow = dbShop.GetOrders(orderType);
+        OrdersToShow = dbShop.GetOrders(orderType, getIntent().getStringExtra("Username"));
         recyclerItemsCompletedOrders = findViewById(R.id.RecyclerViewCompletedOrdersList);
         InsertDataIntoRecyclerView();
     }
