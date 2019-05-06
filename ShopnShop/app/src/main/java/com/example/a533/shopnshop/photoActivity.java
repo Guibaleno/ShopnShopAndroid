@@ -1,17 +1,15 @@
 package com.example.a533.shopnshop;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,11 +19,6 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.net.URI;
 
 
 public class photoActivity extends AppCompatActivity {
@@ -33,6 +26,8 @@ public class photoActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 100;
     Uri imageuir;
     private SQLite dbShop;
+    Toolbar myToolbar;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -70,6 +65,9 @@ public class photoActivity extends AppCompatActivity {
         Intent i = getIntent();
         final String allo = i.getStringExtra("User");
         AfficherphotoDeProfil(allo);
+
+        myToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
 
 
         btncamera.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +111,65 @@ public class photoActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Deconnexion();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        // ...
+//
+        // Define the listener
+        MenuItem.OnActionExpandListener expandListener = new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Do something when action item collapses
+                return true;  // Return true to collapse action view
+            }
+            //
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                // Do something when expanded
+                return true;  // Return true to expand action view
+            }
+
+
+        };
+
+        // Get the MenuItem for the action item
+        MenuItem actionMenuItem = menu.findItem(R.id.toolbar);
+//
+        // Assign the listener to that action item
+
+        //actionMenuItem.setOnActionExpandListener(MenuItem.OnActionExpandListener);
+//
+        // Any other things you have to do when creating the options menu...
+//
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Disconnection.getDisconnection() == true) {
+            this.finish();
+        }
+
+    }
+
+
     private void AfficherphotoDeProfil(String User) {
         Cursor items = dbShop.getPhoto(User);
         if (items.getCount() != 0) {
@@ -121,6 +178,11 @@ public class photoActivity extends AppCompatActivity {
             imageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
 
         }
+    }
+
+    private void Deconnexion(){
+        this.finish();
+        Disconnection.setDisconnection(true);
     }
 
 }

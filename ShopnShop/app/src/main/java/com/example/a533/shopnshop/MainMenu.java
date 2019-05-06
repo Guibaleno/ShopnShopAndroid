@@ -7,10 +7,6 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,13 +17,12 @@ import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
 
 public class MainMenu extends AppCompatActivity {
-    LoginActivity mLoginActivity;
+
 
     Button btnOrder;
     Button btnSeeMyOrders;
     Button btnChangeProfilePicture;
     Toolbar myToolbar;
-    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +38,6 @@ public class MainMenu extends AppCompatActivity {
         setListeners();
         StartAnimation();
         DialogMenu();
-
 
     }
 
@@ -96,6 +90,14 @@ public class MainMenu extends AppCompatActivity {
        return true;
    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Disconnection.getDisconnection() == true) {
+            this.finish();
+        }
+
+    }
 
     private void setListeners()
     {
@@ -184,5 +186,6 @@ public class MainMenu extends AppCompatActivity {
 
     private void Deconnexion(){
         this.finish();
+        Disconnection.setDisconnection(true);
     }
 }
